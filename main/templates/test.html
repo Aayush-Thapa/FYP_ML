@@ -33,11 +33,38 @@
         {% if p %}
             <b> Customer ID is {{ customer_id }}</b>
             <br>
-            <ol>
+            <br>
+            <table class="table table-hover">
+
+                <thead>
+                  <tr>
+                    <th scope="col">StockCode</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">UnitPrice</th>
+                    <th scope="col">Total_Spending</th>
+
+                  </tr>
+                </thead>
+
+                <tbody>
+                    {% for i in res %}
+                  <tr>
+                    <th scope="row">{{ i.StockCode }}</th>
+                    <td>{{ i.Description }}</td>
+                    <td>{{ i.Quantity }}</td>
+                    <td>{{ i.UnitPrice }}</td>
+                    <td>{{ i.Total_Spending }} </td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            <!-- <ol>
                 {% for i in res %}
                 <li> {{ i }}</li>
                 {% endfor %}
-            </ol>
+            </ol> -->
             <!-- <p> {{ res }}</p> -->
         {% endif %}
         </div> 

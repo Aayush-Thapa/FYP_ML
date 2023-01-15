@@ -9,6 +9,8 @@ def final_func(file1):
 
 def info_func(file1, user_):
     li = []
+    li2 = []
+    di = {}
     df = pd.read_csv(file1)
     # data_top  = df.head()
     id_list = list(df['CustomerID'].unique())
@@ -21,8 +23,14 @@ def info_func(file1, user_):
     for index, row in df.iterrows():
         # print("roww ", row['CustomerID'])
         if str(row['CustomerID']) == user_:
-            li.append(row['Description'] + ", amount : "+ str(row['Quantity']))
+            li.append(row['StockCode'])
+            di['StockCode'] = row['StockCode']
+            di['Description'] = row['Description'] 
+            di['Quantity'] = row['Quantity']
+            di['UnitPrice'] = row['UnitPrice']
+            di['Total_Spending'] = round(row['Quantity'] * row['UnitPrice'],2)
+            li2.append(di)
+            di = {}
             print("kitt")
     # df2=df.query('CustomerID' == user_ )['Description']
-    print("LI is ", li)
-    return li
+    return li2
