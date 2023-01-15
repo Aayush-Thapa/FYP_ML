@@ -1,0 +1,48 @@
+{% extends 'home.html' %}
+
+{% block title %}
+FILTER VLOOKUP
+{% endblock %}
+
+{% block content %}
+
+        <section class="content">
+            <div class="row">
+                <div class="col-sm-4" style="padding-top:50px;"> </div>
+                <div class="col-sm-4" style="padding-top:50px;">
+
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <p><label for="file1">First CSV file</label></p>
+                            <input id="file1" name="file1" type="file" class="file">
+                        </div>
+
+                        <div class="form-group">
+                            <p><label for="file2">Second CSV file</label></p>
+                            <input id="file2" name="file2" type="file" class="file">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="column-name">Column name to be compared</label>
+                            <input type="text" class="form-control" id="column-name" name="column-name">
+                        </div>
+
+                        <button type="submit" name="filter_script_btn" class="btn btn-primary">Submit</button>
+                    </form>
+
+                    {% if result %}
+                    <br>
+                    <button class="btn"><i class="fa fa-download"></i>
+                        <a href="static/result/filtered_data.csv" download>
+                            Download Filtered Data
+                        </a>
+                    </button>
+                    {% endif %}
+
+                </div>
+            </div>
+        </section>
+
+{% endblock %}

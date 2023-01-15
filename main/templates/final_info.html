@@ -1,0 +1,241 @@
+{% extends 'home.html' %} {% block title %} FINAL INFO {% endblock %} 
+{% block content %}
+{% load static %}
+<section class="content">
+      {% if r  %}
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading">
+            <h2 class="title">FINAL INFO</h2>
+          </div>
+      <div class="card-body">
+            <!-- <a class="btn btn-primary" href="/download_html" >                      
+                <i class="fa fa-download"></i>
+            </a> -->
+            <div>
+                <!-- <h4>Enter Customer ID</h4>
+                <br>
+                <!-- <label for="exampleDataList" class="form-label">Datalist example</label> -->
+                <!-- <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                
+                <datalist id="datalistOptions" name = 'selected_c_id'>
+                    {% for person in ready %}
+                        <option name = {{ person }} value = {{ person }} >
+                    {% endfor %}
+                </datalist> -->
+                <!-- <br><br> --> -->
+                {{ ready }}
+                <!-- <div style="text-align:center;">
+                
+                <button class="btn btn-primary btn-lg"  href="/final_info" type="submit" name="final_info" style= "background-color: #004B88;">Submit</button>
+                </div> -->
+            </div>
+            </div>
+            </div>
+            </div>
+            
+      {% endif %}
+      {% if not r %}
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading">
+            <h2 class="title">FINAL INFO</h2>
+          </div>
+      <div class="card-body">
+       
+        <!-- <h3>Please use <a href="https://bigbang.pathaointernal.com/queries/4492/" target="_blank">this</a> query and download the csv file <br> After downloading, drag and drop that file in the box below</h3> -->
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+            <div class="file-upload">
+                <div class="image-upload-wrap-file1">
+                    <input id="file1" name="file1" class="file-upload-input-file1" type='file' onchange="readURL(this);" accept=".csv" required/>
+                    <div class="drag-text">
+                        <h3>Drag and drop or select CSV file</h3>
+                    </div>
+                </div>
+                
+                <div class="file-upload-content-file1">
+                    <div class="image-title-wrap-file1">
+                        <button class="file1" type="button" onclick="removeUpload(this.className)">Remove <span class="image-title-file1">Uploaded Image</span></button>
+                    </div>
+                </div>
+            </div>
+           
+              <br>
+
+            <div style="text-align:center;">
+                <button class="btn btn-primary btn-lg" type="submit" name="get_info" style= "background-color: #004B88;">Submit</button>
+            </div>
+        </form>
+    {% endif %}
+
+        {% if output %}
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+              <div class="card-heading">
+                <h2 class="title">Final INFO</h2>
+              </div>
+          <div class="card-body">
+            <!-- <h3>Please use <a href="https://bigbang.pathaointernal.com/queries/4492/source" target="_blank">this</a> query and download the csv file <br> After downloading, drag and drop that file in the box below</h3> -->
+            <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+            <div class="file-upload">
+                <div class="image-upload-wrap-file1">
+                    <input id="file1" name="file1" class="file-upload-input-file1" type='file' onchange="readURL(this);" accept=".csv" required/>
+                    <div class="drag-text">
+                        <h3>Drag and drop or select CSV file</h3>
+                    </div>
+                </div>
+                
+                <div class="file-upload-content-file1">
+                    <div class="image-title-wrap-file1">
+                        <button class="file1" type="button" onclick="removeUpload(this.className)">Remove <span class="image-title-file1">Uploaded Image</span></button>
+                    </div>
+                </div>
+            </div>
+           
+              <br>
+
+            <div style="text-align:center;">
+                <button class="btn btn-primary btn-lg" type="submit" name="get_html" style= "background-color: #004B88;">Submit</button>
+            </div>
+        </form>
+            <div style="text-align:center;">
+            Wait some time, the server is busy
+            </div> 
+       {% endif %}
+        </div>
+
+    </div>
+    
+</div>
+
+</div>
+
+</section>
+
+<style>
+input[type=radio] {
+width: 18px;
+height: 18px;
+}
+.card_text { height: 300px; overflow-x: scroll; width: 100%; }
+
+#snackbar {
+visibility: hidden;
+min-width: 250px; 
+margin-left: -125px; 
+background-color: rgb(219, 238, 250);
+color: rgb(13, 13, 14); 
+text-align: center; 
+border-radius: 2px; 
+padding: 16px; 
+position: fixed; 
+z-index: 1; 
+left: 60%; 
+bottom: 30px; 
+}
+
+#snackbar.show {
+visibility: visible; 
+-webkit-animation: fadein 0.3s, fadeout 0.3s 1.5s;
+animation: fadein 0.3s, fadeout 0.3s 1.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+from {bottom: 0; opacity: 0;}
+to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+from {bottom: 0; opacity: 0;}
+to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+from {bottom: 30px; opacity: 1;}
+to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+from {bottom: 30px; opacity: 1;}
+to {bottom: 0; opacity: 0;}
+} 
+</style>
+<script>
+// refresh the screen for the back button 
+var perfEntries = performance.getEntriesByType("navigation");
+
+if (perfEntries[0].type === "back_forward") {
+location.reload(true);
+}
+
+function copy(){
+const text = document.getElementById('query').innerText
+
+const btnText = document.getElementById('copy')
+navigator.clipboard.writeText(text);
+var x = document.getElementById("snackbar");
+x.className = "show";
+
+setTimeout(function(){ x.className = x.className.replace("show", ""); }, 700);
+}
+
+function readURL(input) {
+filename = input.id;
+if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        $('.image-upload-wrap-'+filename).hide();
+        // <!-- $('.file-upload-image-'+filename).attr('src', e.target.result); -->
+        $('.file-upload-content-'+filename).show();
+        $('.image-title-'+filename).html(input.files[0].name);
+    };
+    reader.readAsDataURL(input.files[0]);
+} else {
+    print("else condition: "+filename);
+    removeUpload(filename);
+}
+}
+
+function removeUpload(filename) {
+$('.file-upload-input-'+filename).replaceWith($('.file-upload-input-'+filename).clone());
+$('.file-upload-content-'+filename).hide();
+$('.image-upload-wrap-'+filename).show();
+clearInputFile($('#'+filename)[0]);
+}
+
+$('.image-upload-wrap-file1').bind('dragover-file1', function() {
+$('.image-upload-wrap-file1').addClass('image-dropping-file1');
+});
+$('.image-upload-wrap-file1').bind('dragleave-file1', function() {
+$('.image-upload-wrap-file1').removeClass('image-dropping-file1');
+});
+
+function clearInputFile(f){
+console.log(f);
+console.log("file value is: "+f.files)
+console.log("clearing");
+if(f.value){
+    try{
+        f.value = ''; 
+    }catch(err){ }
+    if(f.value){
+        var form = document.createElement('form'),
+            parentNode = f.parentNode, ref = f.nextSibling;
+        form.appendChild(f);
+        form.reset();
+        parentNode.insertBefore(f,ref);
+    }
+}
+console.log("cleared");
+}
+</script>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+<style>
+    @media (min-width: 1200px) {
+        .container{
+            max-width: 670px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="py-5 text-center" style="padding-bottom:25px">
+        <h1>Offline Counter</h1>
+    </div>
+
+
+    <label for="start">Date:</label>
+    <input type="date" id="date" name="date" value="{{today}}" class="form-control" onchange="dateChanged()">
+    <div class="card-body">
+        <div id="table" class="table-editable">
+            <table class="table table-bordered table-responsive-md table-striped text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="pt-3-half">Query 1</td>
+                        <td class="pt-3-half" contenteditable="true" id="value0"> {{value.0}} </td>
+                    </tr>
+                    <tr>
+                        <td class="pt-3-half">Query 2</td>
+                        <td class="pt-3-half" contenteditable="true" id="value1">{{value.1}}</td>
+                    </tr>
+                    <tr>
+                        <td class="pt-3-half">Query 3</td>
+                        <td class="pt-3-half" contenteditable="true" id="value2">{{value.2}}</td>
+                    </tr>
+                    <tr>
+                        <td class="pt-3-half">Model</td>
+                        <td class="pt-3-half" contenteditable="true" id="value3">{{value.3}}</td>
+                    </tr>
+                    <tr>
+                        <td class="pt-3-half">Total</td>
+                        <td class="pt-3-half" id="total"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data" id="form1">
+        {% csrf_token %}
+        <button name="submit_btn" class="btn btn-primary" onclick=formSubmit() style="float:right; margin-top:10px;">Submit</button>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data" id="form2">
+        {% csrf_token %}
+    </form>
+
+    {% if result %}
+        <div class="alert alert-success" role="alert" style="padding-bottom:15px;">
+            Offline Counter successfully updated.
+        </div>
+    {% endif %}
+
+</div>
+
+<script>
+    function docReady(fn) {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            setTimeout(fn, 1);
+            alert("ready")
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }   
+    docReady(function() {
+        value0=parseInt(document.getElementById("value0").innerText);
+        value1=parseInt(document.getElementById("value1").innerText);
+        value2=parseInt(document.getElementById("value2").innerText);
+        value3=parseInt(document.getElementById("value3").innerText);
+        console.log(value0)
+        total = value0+value1+value2+value3
+        console.log(total)
+        document.getElementById("total").innerText = total;
+
+    });
+
+    function formSubmit() {
+        form=document.getElementById("form1");
+        var value0 = document.createElement("input");
+        var value1 = document.createElement("input");
+        var value2 = document.createElement("input");  
+        var value3 = document.createElement("input");  
+        var valueDate = document.createElement("input");  
+        value0.setAttribute("type", "hidden");
+        value1.setAttribute("type", "hidden");
+        value2.setAttribute("type", "hidden");
+        value3.setAttribute("type", "hidden");
+        valueDate.setAttribute("type", "hidden");
+        value0.value=document.getElementById("value0").innerText;
+        value0.name="value0";
+        form.appendChild(value0);
+        value1.value=document.getElementById("value1").innerText;
+        value1.name="value1";
+        form.appendChild(value1);
+        value2.value=document.getElementById("value2").innerText;
+        value2.name="value2";
+        form.appendChild(value2);
+        value3.value=document.getElementById("value3").innerText;
+        value3.name="value3";
+        form.appendChild(value3);
+        valueDate.value=document.getElementById("date").value;
+        valueDate.name="date";
+        form.appendChild(valueDate);
+        form.submit();
+    }
+
+    function dateChanged(){
+        form=document.getElementById("form2");
+        var valueDate = document.createElement("input");  
+        valueDate.setAttribute("type", "hidden");
+        valueDate.value=document.getElementById("date").value;
+        valueDate.name="date";
+        form.appendChild(valueDate);
+        form.submit();
+    }
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        {% block title %}
+        CUSTOMER SEGMENATION AND ANALYSIS
+        {% endblock %}
+    </title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- icon -->
+    <link rel="shortcut icon" href="/static/pictures/icon.png" />
+
+    <!-- Font Awesome -->
+    <link href="static/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="static/plugins/fontawesome-free/css/all.min.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="static/css/adminlte.min.css">
+
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+    <!-- Main CSS-->
+    <link href="static/css/main.css" rel="stylesheet" media="all">
+
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        .small-box {
+            color: white;
+            height: 160px;
+            border-radius: .9rem;
+            margin: 10px;
+        }
+
+        .small-box-footer {
+            margin-top: 23px;
+            border-radius: .5rem;
+        }
+
+        .small-box .inner {
+            padding-top: 30px;
+            padding-left: 30px;
+        }
+        .btn {
+            display: inline-block;
+            line-height: 25px;
+            padding: 0 30px;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        .table td,
+        .table th {
+            text-align: center;
+        }
+
+        .td-name {
+            text-align: left !important;
+        }
+
+        .callout.callout-info {
+            background-color: #00c0ef !important;
+        }
+
+        .btn-primary {
+            background-color: #004B88;
+        }
+
+        li.header {
+            color: #4b646f;
+            background: #1a2226;
+            margin-top: 5px;
+            padding: 10px 25px 10px 15px;
+            font-size: 13px;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+
+        .form-wrapper {
+            max-width: 30%;
+            min-width: 300px;
+            padding: 50px 30px 50px 30px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, .1), 0 5px 15px rgba(0, 0, 0, .07);
+        }
+
+        .form-group {
+            position: relative;
+            font-size: 16px;
+            padding-top: 35px;
+            padding-left: 35px;
+
+            &+.form-group {
+                margin-top: 30px;
+            }
+        }
+
+        .form-label {
+            position: absolute;
+            padding-top: 35px;
+            padding-left: 35px;
+            font-size: 16px;
+            left: 0;
+            top: 10px;
+            color: #999;
+            background-color: #fff;
+            z-index: 10;
+            transition: transform 150ms ease-out, font-size 150ms ease-out;
+        }
+
+        .focused .form-label {
+            transform: translateY(-30%);
+            font-size: 12px;
+        }
+
+        .form-input {
+            font-size: 16px;
+            position: relative;
+            padding: 12px 0px 5px 0;
+            width: 100%;
+            outline: 0;
+            border: 0;
+            box-shadow: 0 1px 0 0 #e5e5e5;
+            transition: box-shadow 150ms ease-out;
+
+            &:focus {
+                box-shadow: 0 2px 0 0 blue;
+            }
+        }
+
+        .form-input.filled {
+            box-shadow: 0 2px 0 0 lightgreen;
+        }
+
+        .file-upload {
+            background-color: #ffffff;
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+       
+        .card-heading {
+            background-color: #00AEF0 !important;
+        }
+        .car {
+            background-color: #213238 !important;
+        }
+
+        .file-upload-btn {
+            width: 100%;
+            margin: 0;
+            color: #fff;
+            background: #00AEF0;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #15824B;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .file-upload-btn:hover {
+            background: #1AA059;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-btn:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+        .file-upload-content-file1,
+        .file-upload-content-file2 {
+            display: none;
+            text-align: center;
+        }
+
+        .file-upload-input-file1,
+        .file-upload-input-file2 {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .image-upload-wrap-file1,
+        .image-upload-wrap-file2 {
+            margin-top: 20px;
+            border: 4px dashed #00AEF0;
+            position: relative;
+        }
+
+        .image-dropping,
+        .image-upload-wrap-file1:hover,
+        .image-upload-wrap-file2:hover {
+            background-color: #00AEF0;
+            border: 4px dashed #ffffff;
+        }
+
+        .image-title-wrap-file1,
+        .image-title-wrap-file2 {
+            padding: 0 15px 15px 15px;
+            color: #222;
+        }
+
+        .drag-text {
+            text-align: center;
+        }
+
+        .drag-text h3 {
+            font-weight: 100;
+            text-transform: uppercase;
+            padding: 60px 0;
+        }
+
+        .file-upload-image {
+            max-height: 200px;
+            max-width: 200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .file1,
+        .file2 {
+            width: 200px;
+            margin: 0;
+            color: #fff;
+            background: #cd4535;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #b02818;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .file1:hover,
+        .file2:hover {
+            background: #c13b2a;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .file1:active {
+            .file2:active {
+                border: 0;
+                transition: all .2s ease;
+            }
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <!-- <body class="hold-transition sidebar-mini sidebar-collapse"> -->
+    <div class="wrapper">
+
+        <!-- Navbar -->
+
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+
+            <!-- Navbar -->
+        
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                
+            </ul>
+
+            <ul class="navbar-nav ml-auto">                
+
+                <li class="nav-item">
+                    
+                </li>
+            </ul>
+      
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown user user-menu">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                      <img src="static/pictures/user_avatar.png" class="user-image img-circle elevation-2 alt="User Image">
+                      <span class="hidden-xs">{{request.user.username}}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                      <!-- User image -->
+                      <li class="user-header bg-info">
+                        <img src="static/pictures/user_avatar.png" class="img-circle elevation-2" alt="User Image">
+                
+                        <p>
+                          {{request.user.username}}
+                          
+                        </p>
+                      </li>
+                      
+                    
+                      <!-- Menu Footer-->
+                      <li class="user-footer">
+                        <div class="row">
+                            <div class="col">
+                                <a href="password" class="btn btn-default btn-flat">Password</a>
+                            </div>
+                            <div class="col">                         
+                                <a href="logout" class="btn btn-default btn-flat">Log out</a>
+                            </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+            </ul>
+        </nav>
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #222d32; width: fit-content;">
+            <!-- Brand Logo -->
+            
+            <!-- <a href="/" class="brand-link" >
+                <img src="/static/pictures/logo.jpg" alt="AdminLTE Logo" style="opacity: .8; width:233px; height:100px;">
+            </a> -->
+            <!-- Sidebar -->
+            <div class="sidebar" >
+                <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu" data-accordion="false">
+                    <a href="/" class="brand-link" >
+            </a>
+           
+                <!-- Sidebar Menu -->
+                <nav class="mt-2" >
+                   
+                        <li class="header" style="margin-top:10px;">TOOLS AND TECHNOLOGY</li> 
+                                            
+                            <li class="nav-item {% if request.path == "/index" %}menu-open{% endif %}">
+                                <a href="index" class="nav-link">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>
+                                        HOME
+                                    </p>
+                                </a>
+                                <li class="nav-item {% if request.path == "/get_info" %}menu-open{% endif %}">
+                                    <a href="get_info" class="nav-link">
+                                        <i class="nav-icon fas fa-home"></i>
+                                        <p>
+                                            UPLOAD AND OBSERVE DATA
+                                        </p>
+                                    </a>
+                                <li class="nav-item {% if request.path == "/analyze_data" %}menu-open{% endif %}">
+                                    <a href="analyze_data" class="nav-link">
+                                        <i class="nav-icon fas fa-home"></i>
+                                        <p>
+                                            ANALYZE DATA
+                                        </p>
+                                    </a>
+                                   
+                                        <!-- <li class="nav-item {% if request.path == "/test_data" %}menu-open{% endif %}">
+                                            <a href="test_data" class="nav-link">
+                                                <i class="nav-icon fas fa-home"></i>
+                                                <p>
+                                                    TEST DATA
+                                                </p>
+                                            </a>
+          -->
+                                   
+                </nav>
+            </div>
+        </aside>
+        <div class="content-wrapper" style="background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.3)),">
+            
+            {% block content %}
+                {% endblock %}
+
+            </div>
+            
+        </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2023 <a href="#">Aayush Thapa</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="static/plugins/jquery/jquery.min.js"></script>
+    <script src="static/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+
+    <!-- Bootstrap 4 -->
+    <script src="static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- overlayScrollbars -->
+    <script src="static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <script src="static/js/adminlte.js"></script>
+
+    <script>
+        function docReady(fn) {
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+        docReady(function() {
+            value0 = parseInt(document.getElementById("value0").innerText);
+            value1 = parseInt(document.getElementById("value1").innerText);
+            value2 = parseInt(document.getElementById("value2").innerText);
+            value3 = parseInt(document.getElementById("value3").innerText);
+            total = value0 + value1 + value2 + value3
+            document.getElementById("total").innerText = total;
+
+            confirm0 = parseInt(document.getElementById("confirm0").innerText);
+            confirm1 = parseInt(document.getElementById("confirm1").innerText);
+            confirm2 = parseInt(document.getElementById("confirm2").innerText);
+            confirm3 = parseInt(document.getElementById("confirm3").innerText);
+            total_confirm = confirm0 + confirm1 + confirm2 + confirm3;
+            console.log(total_confirm);
+            document.getElementById("total_confirm").innerText = total_confirm;
+
+        });
+
+        function formSubmit() {
+            form = document.getElementById("form1");
+            var value0 = document.createElement("input");
+            var value1 = document.createElement("input");
+            var value2 = document.createElement("input");
+            var value3 = document.createElement("input");
+            var confirm0 = document.createElement("input");
+            var confirm1 = document.createElement("input");
+            var confirm2 = document.createElement("input");
+            var confirm3 = document.createElement("input");
+            var valueDate = document.createElement("input");
+            value0.setAttribute("type", "hidden");
+            value1.setAttribute("type", "hidden");
+            value2.setAttribute("type", "hidden");
+            value3.setAttribute("type", "hidden");
+            confirm0.setAttribute("type", "hidden");
+            confirm1.setAttribute("type", "hidden");
+            confirm2.setAttribute("type", "hidden");
+            confirm3.setAttribute("type", "hidden");
+            valueDate.setAttribute("type", "hidden");
+            value0.value = document.getElementById("value0").innerText;
+            value0.name = "value0";
+            form.appendChild(value0);
+            value1.value = document.getElementById("value1").innerText;
+            value1.name = "value1";
+            form.appendChild(value1);
+            value2.value = document.getElementById("value2").innerText;
+            value2.name = "value2";
+            form.appendChild(value2);
+            value3.value = document.getElementById("value3").innerText;
+            value3.name = "value3";
+            form.appendChild(value3);
+            confirm0.value = document.getElementById("confirm0").innerText;
+            confirm0.name = "confirm0";
+            form.appendChild(confirm0);
+            confirm1.value = document.getElementById("confirm1").innerText;
+            confirm1.name = "confirm1";
+            form.appendChild(confirm1);
+            confirm2.value = document.getElementById("confirm2").innerText;
+            confirm2.name = "confirm2";
+            form.appendChild(confirm2);
+            confirm3.value = document.getElementById("confirm3").innerText;
+            confirm3.name = "confirm3";
+            form.appendChild(confirm3);
+            valueDate.value = document.getElementById("date").value;
+            valueDate.name = "date";
+            form.appendChild(valueDate);
+            form.submit();
+        }
+
+        function dateChanged() {
+            form = document.getElementById("form2");
+            var valueDate = document.createElement("input");
+            valueDate.setAttribute("type", "hidden");
+            valueDate.value = document.getElementById("date").value;
+            valueDate.name = "date";
+            form.appendChild(valueDate);
+            form.submit();
+        }
+
+        $('input').focus(function() {
+            $(this).parents('.form-group').addClass('focused');
+        });
+
+        $('input').blur(function() {
+            var inputValue = $(this).val();
+            if (inputValue == "") {
+                $(this).removeClass('filled');
+                $(this).parents('.form-group').removeClass('focused');
+            } else {
+                $(this).addClass('filled');
+            }
+        })
+
+$(".alert").delay(4000).slideUp(200, function() {
+    $(this).alert('close');
+});
+    </script>
+
+</body>
+</html>

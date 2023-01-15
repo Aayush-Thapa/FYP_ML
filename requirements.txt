@@ -1,0 +1,17 @@
+Django
+gsheets
+joblib
+matplotlib
+numpy
+pandas
+plotly
+scikit-learn
+seaborn
+statsmodels
+whitenoise
+ipywidgets
+mysqlclient
+openpyxl
+squarify
+shutil==0.1.0
+whitenoise
