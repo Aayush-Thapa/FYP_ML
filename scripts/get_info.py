@@ -20,6 +20,7 @@ def info_func(file1, user_):
     print('type df ', type(df['CustomerID'] ))
     df2=df[df['CustomerID'] == str(user_)]
     print('df2 ', df2)
+    all_total = 0
     for index, row in df.iterrows():
         # print("roww ", row['CustomerID'])
         if str(row['CustomerID']) == user_:
@@ -32,5 +33,6 @@ def info_func(file1, user_):
             li2.append(di)
             di = {}
             print("kitt")
+            all_total = round(row['Quantity'] * row['UnitPrice'],2) + all_total
     # df2=df.query('CustomerID' == user_ )['Description']
-    return li2
+    return li2,all_total

@@ -20,6 +20,8 @@ urlpatterns = [
     re_path('get_info', views.get_info, name='get_info'),
     re_path('test_data', views.test_data, name='test_data'),
     re_path('analyze_data', views.analyze_data, name='analyze_data'),
+    
+    re_path('item_basket_size', views.item_basket_size, name='item_basket_size'),
 
 
       re_path(
