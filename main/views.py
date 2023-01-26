@@ -1,4 +1,5 @@
 from fileinput import filename
+from tokenize import group
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from subprocess import run, PIPE
@@ -142,10 +143,12 @@ def test_data(request):
 		print("selected id is ", selected_id)
 		data_folder = os.path.join(base_dir+'/main/static/result/get_info/' + str(request.user.username)+'/data.csv')
 		# return render(request, "final_info.html",{'r':True, 'ready': selected_id}) 
-		from scripts.get_info import info_func
+		from scripts.get_info import info_func, grouped
 		output,all_total = info_func(user_folder+'/data.csv',selected_id)
 		print("Output as ", output)
-		return render(request, "test.html",{'p':True, 'res': output, 'customer_id': selected_id, 'all_total':all_total})
+		recom_t,recom = grouped(user_folder+'/data.csv',selected_id)
+
+		return render(request, "test.html",{'p':True, 'res': output, 'customer_id': selected_id, 'all_total':all_total, 'recom_t':recom_t, 'recom':recom})
 	return render(request, "test.html",{'r':True, 'ready': result})
 
 
