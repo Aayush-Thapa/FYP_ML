@@ -39,6 +39,8 @@
                 <thead>
                   <tr>
                     <th scope="col">StockCode</th>
+                    <th scope="col">InvoiceDate</th>
+
                     <th scope="col">Description</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">UnitPrice</th>
@@ -51,6 +53,8 @@
                     {% for i in res %}
                   <tr>
                     <th scope="row">{{ i.StockCode }}</th>
+
+                    <th scope="row">{{ i.InvoiceDate }}</th>
                     <td>{{ i.Description }}</td>
                     <td>{{ i.Quantity }}</td>
                     <td>{{ i.UnitPrice }}</td>
@@ -67,11 +71,58 @@
                 </tbody>
               </table>
               <br>
-              <h5>{{ recom_t }}</h5>
+               <h5>{{ recom_t }}</h5>
               <br>
-              {% for i in recom %}
+              <!-- {% for i in recom %}
                 <li>{{ i }}</li>
-                {% endfor %}
+                {% endfor %} -->
+                <h4>Based on Average price</h4>
+                <table class="table table-hover">
+                  
+                  <thead>
+                    <tr>
+                      <th scope="col">Item</th>
+                      <th scope="col">UnitPrice</th>
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                      {% for i in recom %}
+                    <tr>
+                      <th scope="row">{{ i.item }}</th>
+                      <td>{{ i.price }}</td>
+                    </tr>
+                    {% endfor %}
+  
+                  </tbody>
+                </table>
+                <br>
+                <h4>Based on Recent purchase</h4>
+                <br>
+                <table class="table table-hover">
+
+                  <thead>
+                    <tr>
+                      <th scope="col">StockCode</th>
+                      <th scope="col">Item</th>
+                      <th scope="col">UnitPrice</th>
+
+                    </tr>
+                  </thead>
+  
+                  <tbody>
+                    {% for i in item_li %}
+                    <tr>
+                      <th scope="row">{{ i.StockCode }}</th>
+                      <td>{{ i.item }}</td>
+                      <td>{{ i.UnitPrice }}</td>
+
+                    </tr>
+                    {% endfor %}
+  
+  
+                  </tbody>
+                </table>
         {% endif %}
         </div> 
         <!-- {% if not r  %}

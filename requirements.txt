@@ -10,12 +10,10 @@ seaborn
 statsmodels
 whitenoise
 ipywidgets
-mysqlclient
 openpyxl
 folium
 nbformat
 nbconvert
-pymysql
-mysql
-tqdm
 nbparameterise
+sklearn
+implicit

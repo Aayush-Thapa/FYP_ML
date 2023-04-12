@@ -7,10 +7,29 @@
     <!-- <a class="btn btn-primary" href="/download_html" >                      
         <i class="fa fa-download"></i>
     </a> -->
+
+    {% if r  %}
 <div class="embed-responsive embed-responsive-16by9">
   <iframe id = 'iframe1' class="embed-responsive-item" src= {{"static/result/item_basket/"|add:user.get_username|add:"/item_basket.html"}} ></iframe>
 </div>
+{% endif %}
 
+    {% if not r %}
+    <div class="wrapper wrapper--w790">
+      <div class="card card-5">
+        <div class="card-heading">
+          <h2 class="title">ITEM BASKET SIZE</h2>
+        </div>
+    <div class="card-body">
+     
+      <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+          <div style="text-align:center;">
+              <button class="btn btn-primary btn-lg" type="submit" name="get_item_basket" style= "background-color: #004B88;">Analyze Data</button>
+          </div>
+      </form>
+  {% endif %}
 
     </div>
 </div>

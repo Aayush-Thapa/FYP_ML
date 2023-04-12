@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/pela/Documents/Data chautari/data_chautari-master/venv/bin/python3" "$0" "$@"
-' '''
+#!/home/ayush/Documents/Project/ayush/customer_segm_RFM/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

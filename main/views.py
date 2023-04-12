@@ -143,16 +143,19 @@ def test_data(request):
 		print("selected id is ", selected_id)
 		data_folder = os.path.join(base_dir+'/main/static/result/get_info/' + str(request.user.username)+'/data.csv')
 		# return render(request, "final_info.html",{'r':True, 'ready': selected_id}) 
-		from scripts.get_info import info_func, grouped
+		from scripts.get_info import info_func, grouped,colab_rec
 		output,all_total = info_func(user_folder+'/data.csv',selected_id)
-		print("Output as ", output)
-		recom_t,recom = grouped(user_folder+'/data.csv',selected_id)
+		# print("Output as ", output)
+		recom_t,recom,p_ = grouped(user_folder+'/data.csv',selected_id)
+		item_li = colab_rec(user_folder+'/data.csv',selected_id, p_)
 
-		return render(request, "test.html",{'p':True, 'res': output, 'customer_id': selected_id, 'all_total':all_total, 'recom_t':recom_t, 'recom':recom})
+
+		return render(request, "test.html",{'p':True, 'res': output, 'customer_id': selected_id, 'all_total':all_total, 'recom_t':recom_t, 'recom':recom, 'item_li':item_li})
 	return render(request, "test.html",{'r':True, 'ready': result})
 
 
 def item_basket_size(request):
+	
 	base_dir = os.path.abspath('')
 	user_folder = os.path.join(base_dir+'/main/static/result/get_info/' + str(request.user.username))
 	from scripts.get_info import final_func
@@ -161,34 +164,35 @@ def item_basket_size(request):
 	print("selected id is ")
 	user_ = str(request.user.username)
 	base_dir = os.path.abspath('.')
-			
-	try:
-		user_folder = os.path.join(base_dir+'/main/static/result/item_basket/'+str(request.user.username)+'/')
+	if request.method =='POST'and'get_item_basket' in request.POST:			
+		try:
+			user_folder = os.path.join(base_dir+'/main/static/result/item_basket/'+str(request.user.username)+'/')
+					
+		except:
+			os.makedirs(os.path.join(base_dir+'/main/static/result/item_basket/'+str(request.user.username)+'/'))
+	
+		notebook_path = os.path.join(base_dir+'/script/')
+
+		if os.path.exists(user_folder):
+				filelist = [ f for f in os.listdir(user_folder) ]
+				for f in filelist:
+					os.remove(os.path.join(user_folder, f))
+		if not os.path.exists(user_folder):
+					os.makedirs(user_folder)
 				
-	except:
-		os.makedirs(os.path.join(base_dir+'/main/static/result/item_basket/'+str(request.user.username)+'/'))
-   
-	notebook_path = os.path.join(base_dir+'/script/')
+		sys.path.append('..')
 
-	if os.path.exists(user_folder):
-			filelist = [ f for f in os.listdir(user_folder) ]
-			for f in filelist:
-				os.remove(os.path.join(user_folder, f))
-	if not os.path.exists(user_folder):
-				os.makedirs(user_folder)
+
 			
-	sys.path.append('..')
+		from scripts.exec_jupyter import final_func	
+		source = notebook_path + "item_basket.ipynb"
+		destination  = user_folder+'item_basket.ipynb'
+		shutil.copy(source, destination)	
+		from scripts.exec_jupyter import final_func
+		result = final_func(destination,user_)
 
+		with open(user_folder +"item_basket.html", "w") as f:
+			f.write(result)
+		return render(request, 'item_basket.html', {'r':True})
 
-		
-	from scripts.exec_jupyter import final_func	
-	source = notebook_path + "item_basket.ipynb"
-	destination  = user_folder+'item_basket.ipynb'
-	shutil.copy(source, destination)	
-	from scripts.exec_jupyter import final_func
-	result = final_func(destination,user_)
-
-	with open(user_folder +"item_basket.html", "w") as f:
-		f.write(result)
-				
 	return render(request, 'item_basket.html')
